@@ -1,0 +1,16 @@
+# Working files: not needed to run the site or the video project
+assets/ref/
+assets/*.png
+!assets/logo.png
+!assets/cookie-mark.png
+assets/logo-src.jpg
+video/_music/
+video/site-recording/
+video/brand/renders/
+video/brand/.hyperframes/
+video/brand/.sfx/
+video/brand/.thumbnails/
+video/brand/.waveform-cache/
+video/brand/node_modules/
+node_modules/
+.DS_Store

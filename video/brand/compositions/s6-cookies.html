@@ -1,0 +1,42 @@
+<template>
+  <style>
+    @font-face { font-family: "Bricolage"; src: url("assets/fonts/Bricolage.ttf"); font-weight: 200 800; }
+    @font-face { font-family: "Manrope"; src: url("assets/fonts/Manrope.ttf"); font-weight: 200 800; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #06066a; }
+    .s6-f { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    .s6-f .bg { position: absolute; inset: 0; }
+    .s6-f.a .bg { background: #06066a; } .s6-f.b .bg { background: #0b0b9a; }
+    .s6-f .glow { position: absolute; left: 460px; top: 120px; width: 1000px; height: 860px; border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(80, 80, 255, .55), rgba(80, 80, 255, 0)); }
+    .s6-f img { position: absolute; left: 660px; top: 170px; width: 600px; height: 620px; object-fit: contain; filter: drop-shadow(0 36px 44px rgba(0, 0, 40, .5)); }
+    .s6-f .nm { position: absolute; left: 0; top: 820px; width: 1920px; text-align: center; font: 800 88px/1 "Bricolage"; letter-spacing: -0.04em; color: #fff3e0; white-space: nowrap; }
+    .s6-f .tg { position: absolute; left: 0; top: 930px; width: 1920px; text-align: center; font: 700 30px/1 "Manrope"; letter-spacing: 0.18em; text-transform: uppercase; color: #ffc93c; }
+    .stk { position: absolute; width: 190px; height: 190px; border-radius: 50%; background: #ffc93c; color: #0d0d3d; display: flex; flex-direction: column; align-items: center; justify-content: center; font: 800 56px/0.9 "Bricolage"; letter-spacing: -0.04em; box-shadow: 0 16px 30px -10px rgba(0,0,40,.45); } .stk small { font: 700 26px/1 "Manrope"; letter-spacing: 0.02em; }
+    .s6-f .stk { left: 1280px; top: 200px; }
+    #s6-top { position: absolute; left: 0; top: 84px; width: 1920px; text-align: center; font: 800 56px/1 "Bricolage"; letter-spacing: -0.03em; color: rgba(255, 243, 224, .9); z-index: 20; }
+    #s6-top b { color: #ffc93c; font-weight: 800; }
+  </style>
+  <div id="root" data-composition-id="s6-cookies" data-width="1920" data-height="1080" data-layout-allow-overlap data-layout-allow-overflow>
+    <div id="s6-f1" class="s6-f a clip" data-start="0.0" data-duration="0.907" data-track-index="1"><div class="bg"></div><div class="glow"></div><img id="s6-i1" src="assets/img/ck-1.webp" alt="Classic Chocolate Chip"><div class="nm" id="s6-n1">Classic Chocolate Chip</div><div class="stk" id="s6-p1">Rs.390</div><div class="tg">Original</div></div>
+    <div id="s6-f2" class="s6-f b clip" data-start="0.907" data-duration="0.907" data-track-index="1"><div class="bg"></div><div class="glow"></div><img id="s6-i2" src="assets/img/ck-6.webp" alt="Kunafa Double Chocolate"><div class="nm" id="s6-n2">Kunafa Double Chocolate</div><div class="stk" id="s6-p2">Rs.430</div><div class="tg">Special</div></div>
+    <div id="s6-f3" class="s6-f a clip" data-start="1.814" data-duration="0.907" data-track-index="1"><div class="bg"></div><div class="glow"></div><img id="s6-i3" src="assets/img/ck-8.webp" alt="Lotus Lava"><div class="nm" id="s6-n3">Lotus Lava</div><div class="stk" id="s6-p3">Rs.430</div><div class="tg">Special</div></div>
+    <div id="s6-f4" class="s6-f b clip" data-start="2.721" data-duration="0.909" data-track-index="1"><div class="bg"></div><div class="glow"></div><img id="s6-i4" src="assets/img/ck-9.webp" alt="Red Velvet Cream Cheese"><div class="nm" id="s6-n4">Red Velvet Cream Cheese</div><div class="stk" id="s6-p4">Rs.430</div><div class="tg">Special</div></div>
+    <div id="s6-top"><b>10</b> cookies. Baked fresh.</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const B = 0.4535;
+    for (let k = 1; k <= 4; k++) {
+      const t = (k - 1) * 2 * B;
+      tl.fromTo("#s6-i" + k, { scale: 1.15, rotationY: -100, rotation: k % 2 ? -8 : 8, transformPerspective: 1300 }, { scale: 1, rotationY: 0, rotation: k % 2 ? -2 : 2, duration: 0.42, ease: "expo.out" }, t);
+      tl.fromTo("#s6-p" + k, { scale: 0, rotation: -40 }, { scale: 1, rotation: 10, duration: 0.42, ease: "back.out(2.4)" }, t + 0.18);
+      // off-beat punch keeps the montage on the music
+      tl.to("#s6-i" + k, { scale: 1.07, duration: 0.07, ease: "power2.out" }, t + B);
+      tl.to("#s6-i" + k, { scale: 1, duration: 0.3, ease: "back.out(2.5)" }, t + B + 0.07);
+      tl.fromTo("#s6-n" + k, { yPercent: 60, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.24, ease: "expo.out" }, t + 0.02);
+    }
+    tl.fromTo("#s6-top", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 0.05);
+    tl.to("#s6-top", { opacity: 0, duration: 0.15 }, 3.48);
+    window.__timelines["s6-cookies"] = tl;
+  </script>
+</template>

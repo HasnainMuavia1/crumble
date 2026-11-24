@@ -1,0 +1,56 @@
+<template>
+  <style>
+    @font-face { font-family: "Bricolage"; src: url("assets/fonts/Bricolage.ttf"); font-weight: 200 800; }
+    @font-face { font-family: "Manrope"; src: url("assets/fonts/Manrope.ttf"); font-weight: 200 800; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #0b0b9a; }
+    .s5-wave { position: absolute; left: 0; top: 0; width: 1920px; height: 1500px; }
+    .s5-wave svg { position: absolute; left: 0; top: 0; width: 3840px; height: 120px; }
+    .s5-wave .fill { position: absolute; left: 0; top: 118px; width: 1920px; height: 1382px; background: #ffc93c; }
+    #s5-glow { position: absolute; left: 260px; top: 160px; width: 1400px; height: 900px; border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(255, 238, 170, .9), rgba(255, 238, 170, 0)); }
+    .s5-c { position: absolute; width: 250px; filter: drop-shadow(0 30px 34px rgba(110, 60, 0, .35)); }
+    #s5-c1 { left: 375px; top: 330px; } #s5-c2 { left: 695px; top: 300px; } #s5-c3 { left: 1015px; top: 330px; } #s5-c4 { left: 1335px; top: 300px; }
+    .s5-lb { position: absolute; top: 872px; width: 320px; text-align: center; font: 700 28px/1.2 "Manrope"; color: #3d2a00; }
+    #s5-l1 { left: 340px; } #s5-l2 { left: 660px; } #s5-l3 { left: 980px; } #s5-l4 { left: 1300px; }
+    .stk { position: absolute; width: 190px; height: 190px; border-radius: 50%; background: #ffc93c; color: #0d0d3d; display: flex; flex-direction: column; align-items: center; justify-content: center; font: 800 56px/0.9 "Bricolage"; letter-spacing: -0.04em; box-shadow: 0 16px 30px -10px rgba(0,0,40,.45); } .stk small { font: 700 26px/1 "Manrope"; letter-spacing: 0.02em; }
+    #s5-stk { left: 1580px; top: 230px; }
+    #s5-title { position: absolute; left: 0; top: 110px; width: 1920px; text-align: center; font: 800 112px/1 "Bricolage"; letter-spacing: -0.045em; color: #0d0d3d; }
+    #s5-title .blue { color: #0b0b9a; }
+    #s5-title span { display: inline-block; }
+  </style>
+  <div id="root" data-composition-id="s5-cold" data-width="1920" data-height="1080" data-layout-allow-overlap data-layout-allow-overflow>
+    <div class="s5-wave" id="s5-wave" data-motion-blur="off"><svg viewBox="0 0 3840 120" preserveAspectRatio="none"><path fill="#ffc93c" d="M0 60 C320 0 640 120 960 60 S1600 0 1920 60 S2560 120 2880 60 S3520 0 3840 60 V120 H0Z"/></svg><div class="fill"></div></div>
+    <div id="s5-glow"></div>
+    <div id="s5-title"><span id="s5-w1">Made</span> <span id="s5-w2">with</span> <span id="s5-w3">real</span> <span id="s5-w4" class="blue">fruit purée.</span></div>
+    <img class="s5-c" id="s5-c1" src="assets/img/cold-1.webp" alt="Crumble Cold Mango Pineapple refresher">
+    <img class="s5-c" id="s5-c2" src="assets/img/cold-2.webp" alt="Crumble Cold Strawberry Watermelon refresher">
+    <img class="s5-c" id="s5-c3" src="assets/img/cold-3.webp" alt="Crumble Cold Passion Berry refresher">
+    <img class="s5-c" id="s5-c4" src="assets/img/cold-4.webp" alt="Crumble Cold Kiwi Apple refresher">
+    <div class="stk" id="s5-stk">Rs.590</div>
+    <div class="s5-lb" id="s5-l1">Mango Pineapple</div>
+    <div class="s5-lb" id="s5-l2">Strawberry Watermelon</div>
+    <div class="s5-lb" id="s5-l3">Passion Berry</div>
+    <div class="s5-lb" id="s5-l4">Kiwi Apple</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const B = 0.4535;
+    tl.fromTo("#s5-wave", { y: 1100 }, { y: -260, duration: 0.45, ease: "power2.inOut" }, 0);
+    tl.fromTo("#s5-wave svg", { x: 0 }, { x: -1920, duration: 3.63, ease: "none" }, 0);
+    tl.fromTo("#s5-glow", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0.3);
+    // a cup pops up on every beat
+    [1, 2, 3, 4].forEach((n, i) => {
+      const t = B * n;
+      tl.fromTo("#s5-c" + n, { scale: 0.4, rotationY: -130, rotation: i % 2 ? 14 : -14, y: 120, transformPerspective: 1200 }, { scale: 1, rotationY: 0, rotation: i % 2 ? 3 : -3, y: 0, duration: 0.65, ease: "back.out(1.9)" }, t - 0.12);
+      tl.fromTo("#s5-l" + n, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, t + 0.25);
+    });
+    ["#s5-w1", "#s5-w2", "#s5-w3", "#s5-w4"].forEach((w, i) => {
+      tl.fromTo(w, { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, ease: "power3.out" }, 0.45 + i * 0.12);
+    });
+    tl.fromTo("#s5-stk", { scale: 0, rotation: -30 }, { scale: 1, rotation: -8, duration: 0.5, ease: "back.out(2.4)" }, B * 5.6);
+    // exit: cups lift off upward
+    tl.to(".s5-c", { y: -1000, duration: 0.38, ease: "power3.in", stagger: 0.04 }, 3.2);
+    tl.to(".s5-lb, #s5-title, #s5-stk", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 3.2);
+    window.__timelines["s5-cold"] = tl;
+  </script>
+</template>

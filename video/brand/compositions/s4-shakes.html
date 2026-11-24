@@ -1,0 +1,69 @@
+<template>
+  <style>
+    @font-face { font-family: "Bricolage"; src: url("assets/fonts/Bricolage.ttf"); font-weight: 200 800; }
+    @font-face { font-family: "Manrope"; src: url("assets/fonts/Manrope.ttf"); font-weight: 200 800; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #fff1dc; }
+    .s4-wave { position: absolute; left: 0; top: 0; width: 1920px; height: 1500px; }
+    .s4-wave svg { position: absolute; left: 0; top: 0; width: 3840px; height: 120px; }
+    .s4-wave .fill { position: absolute; left: 0; top: 118px; width: 1920px; height: 1382px; background: #0b0b9a; }
+    #s4-glow { position: absolute; left: 260px; top: 180px; width: 1400px; height: 900px; border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(70, 70, 255, .5), rgba(70, 70, 255, 0)); }
+    .s4-sh { position: absolute; top: 300px; width: 270px; filter: drop-shadow(0 34px 40px rgba(0, 0, 40, .45)); }
+    #s4-s1 { left: 345px; } #s4-s2 { left: 665px; } #s4-s3 { left: 985px; } #s4-s4 { left: 1305px; }
+    .s4-lb { position: absolute; top: 868px; width: 300px; text-align: center; font: 700 28px/1.2 "Manrope"; color: rgba(255, 243, 224, .88); }
+    #s4-l1 { left: 330px; } #s4-l2 { left: 650px; } #s4-l3 { left: 970px; } #s4-l4 { left: 1290px; }
+    .stk { position: absolute; width: 190px; height: 190px; border-radius: 50%; background: #ffc93c; color: #0d0d3d; display: flex; flex-direction: column; align-items: center; justify-content: center; font: 800 56px/0.9 "Bricolage"; letter-spacing: -0.04em; box-shadow: 0 16px 30px -10px rgba(0,0,40,.45); } .stk small { font: 700 26px/1 "Manrope"; letter-spacing: 0.02em; }
+    #s4-stk { left: 1560px; top: 120px; }
+    #s4-title { position: absolute; left: 0; top: 110px; width: 1920px; text-align: center; font: 800 120px/1 "Bricolage"; letter-spacing: -0.045em; color: #fff3e0; }
+    #s4-title .gold { color: #ffc93c; }
+    #s4-title span { display: inline-block; }
+  </style>
+  <div id="root" data-composition-id="s4-shakes" data-width="1920" data-height="1080" data-layout-allow-overlap data-layout-allow-overflow>
+    <div class="s4-wave" id="s4-wave" data-motion-blur="off"><svg viewBox="0 0 3840 120" preserveAspectRatio="none"><path fill="#0b0b9a" d="M0 60 C320 0 640 120 960 60 S1600 0 1920 60 S2560 120 2880 60 S3520 0 3840 60 V120 H0Z"/></svg><div class="fill"></div></div>
+    <div id="s4-glow"></div>
+    <div id="s4-title"><span id="s4-w1">Highly</span> <span id="s4-w2" class="gold">addictive.</span></div>
+    <img class="s4-sh" id="s4-s1" src="assets/img/shake-1.webp" alt="Crumble Cookies N Cream shake">
+    <img class="s4-sh" id="s4-s2" src="assets/img/shake-2.webp" alt="Crumble Lotus shake">
+    <img class="s4-sh" id="s4-s3" src="assets/img/shake-3.webp" alt="Crumble Strawberry shake">
+    <img class="s4-sh" id="s4-s4" src="assets/img/shake-4.webp" alt="Crumble Vanilla shake">
+    <div class="stk" id="s4-stk"><small>from</small>Rs.630</div>
+    <div class="s4-lb" id="s4-l1">Cookies N Cream</div>
+    <div class="s4-lb" id="s4-l2">Lotus</div>
+    <div class="s4-lb" id="s4-l3">Strawberry</div>
+    <div class="s4-lb" id="s4-l4">Vanilla</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const B = 0.4535;
+    tl.fromTo("#s4-wave", { y: 1100 }, { y: -260, duration: 0.45, ease: "power2.inOut" }, 0);
+    tl.fromTo("#s4-wave svg", { x: 0 }, { x: -1920, duration: 3.63, ease: "none" }, 0);
+    tl.fromTo("#s4-glow", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0.3);
+    // a 3D carousel of the four shakes; each one leaves the ring and clicks into the row on its beat
+    const baseX = [345, 665, 985, 1305], W = 270, R = 560, settle = [1, 2, 3, 4].map(n => B * n + 0.18);
+    const ring = { a: 0 };
+    function pose(t) {
+      const spin = Math.min(Math.max((t - 0.25) / 1.9, 0), 1);
+      const ang = -200 + spin * 290;
+      for (let i = 0; i < 4; i++) {
+        const th = (ang + i * 90) * Math.PI / 180;
+        const rx = 960 + Math.sin(th) * R - W / 2 - baseX[i], rz = (Math.cos(th) - 1) * 420, ry = Math.sin(th) * -55;
+        const k = Math.min(Math.max((t - (settle[i] - 0.36)) / 0.36, 0), 1), e = 1 - Math.pow(1 - k, 3);
+        const appear = Math.min(Math.max((t - 0.2) / 0.25, 0), 1);
+        gsap.set("#s4-s" + (i + 1), { x: rx * (1 - e), z: rz * (1 - e), rotationY: ry * (1 - e), transformPerspective: 1400, opacity: appear, y: 0, scale: 1 });
+      }
+    }
+    tl.to(ring, { a: 1, duration: 2.4, ease: "none", onUpdate: () => pose(tl.time()) }, 0);
+    pose(0);
+    [1, 2, 3, 4].forEach((n, i) => {
+      tl.fromTo("#s4-l" + n, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, settle[i] + 0.05);
+    });
+    tl.fromTo("#s4-stk", { scale: 0, rotation: -30 }, { scale: 1, rotation: 10, duration: 0.5, ease: "back.out(2.4)" }, B * 6);
+    tl.fromTo("#s4-w1", { opacity: 0, rotationX: -90, transformPerspective: 800, transformOrigin: "50% 100%" }, { opacity: 1, rotationX: 0, duration: 0.4, ease: "back.out(1.8)" }, B * 5);
+    tl.fromTo("#s4-w2", { opacity: 0, filter: "blur(10px)", scale: 1.25 }, { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.2, ease: "power3.out" }, B * 5.5);
+    // exit: the shakes drop away
+    tl.to(".s4-sh", { y: 900, rotationX: -40, duration: 0.36, ease: "power3.in", stagger: 0.035 }, 3.2);
+    tl.to("#s4-stk", { scale: 0, duration: 0.2, ease: "power2.in" }, 3.2);
+    tl.to(".s4-lb, #s4-title", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 3.22);
+    window.__timelines["s4-shakes"] = tl;
+  </script>
+</template>
